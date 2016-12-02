@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		AADF961B1DF14EF9001DD22E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF961A1DF14EF9001DD22E /* AppDelegate.swift */; };
-		AADF961D1DF14EF9001DD22E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF961C1DF14EF9001DD22E /* ViewController.swift */; };
 		AADF96201DF14EF9001DD22E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AADF961E1DF14EF9001DD22E /* Main.storyboard */; };
 		AADF96221DF14EF9001DD22E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AADF96211DF14EF9001DD22E /* Assets.xcassets */; };
 		AADF96251DF14EF9001DD22E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AADF96231DF14EF9001DD22E /* LaunchScreen.storyboard */; };
 		AADF96301DF14EF9001DD22E /* pixelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF962F1DF14EF9001DD22E /* pixelTests.swift */; };
 		AADF963B1DF14EF9001DD22E /* pixelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF963A1DF14EF9001DD22E /* pixelUITests.swift */; };
+		AADF96491DF151CD001DD22E /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF96481DF151CD001DD22E /* TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,6 @@
 /* Begin PBXFileReference section */
 		AADF96171DF14EF9001DD22E /* pixel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pixel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AADF961A1DF14EF9001DD22E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AADF961C1DF14EF9001DD22E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AADF961F1DF14EF9001DD22E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AADF96211DF14EF9001DD22E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AADF96241DF14EF9001DD22E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		AADF96361DF14EF9001DD22E /* pixelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pixelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AADF963A1DF14EF9001DD22E /* pixelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pixelUITests.swift; sourceTree = "<group>"; };
 		AADF963C1DF14EF9001DD22E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AADF96481DF151CD001DD22E /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				AADF961A1DF14EF9001DD22E /* AppDelegate.swift */,
-				AADF961C1DF14EF9001DD22E /* ViewController.swift */,
+				AADF96481DF151CD001DD22E /* TableViewController.swift */,
 				AADF961E1DF14EF9001DD22E /* Main.storyboard */,
 				AADF96211DF14EF9001DD22E /* Assets.xcassets */,
 				AADF96231DF14EF9001DD22E /* LaunchScreen.storyboard */,
@@ -262,8 +262,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AADF961D1DF14EF9001DD22E /* ViewController.swift in Sources */,
 				AADF961B1DF14EF9001DD22E /* AppDelegate.swift in Sources */,
+				AADF96491DF151CD001DD22E /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +512,7 @@
 				AADF96411DF14EF9001DD22E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AADF96421DF14EF9001DD22E /* Build configuration list for PBXNativeTarget "pixelTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +521,7 @@
 				AADF96441DF14EF9001DD22E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AADF96451DF14EF9001DD22E /* Build configuration list for PBXNativeTarget "pixelUITests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +530,7 @@
 				AADF96471DF14EF9001DD22E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
