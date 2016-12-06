@@ -13,9 +13,6 @@ class TableViewController: UITableViewController,UIGestureRecognizerDelegate {
     var fruits:[String] = ["Apple","Apricot","Avocado","Banana","Bilberry","Blackberry","Blackcurrant","Blueberry","Boysenberry","Currant","Cherry","Cherimoya","Cloudberry","Coconut","Cranberry","Cucumber","Custard apple","Damson","Date","Decaisnea Fargesii","Dragonfruit","Durian","Elderberry","Feijoa","Fig","Goji berry","Gooseberry","Grape","Raisin","Grapefruit","Guava","Honeyberry","Huckleberry","Jabuticaba","Jackfruit","Jambul","Jujube","Juniper berry","Kiwifruit","Kumquat","Lemon","Lime","Loquat","Longan","Lychee","Mango","Marionberry","Melon","Cantaloupe","Honeydew","Watermelon","Miracle fruit","Mulberry","Nectarine","Nance","Olive","Orange","Blood orange","Clementine","Mandarine","Tangerine","Papaya","Passionfruit","Peach","Pear","Persimmon","Physalis","Plantain","Plum","Prune (dried plum)","Pineapple","Plumcot (or Pluot)","Pomegranate","Pomelo","Purple mangosteen","Quince","Raspberry","Salmonberry","Rambutan","Redcurrant","Salal berry","Salak","Satsuma","Star fruit","Strawberry","Tamarillo","Tamarind","Tomato","Ugli fruit","Yuzu"]
     
     var longPressRecog:UILongPressGestureRecognizer!
-    var selectedRowCount:Int = 0
-    var selectedFruits:[String]!
-    var selectedIndexes:[Int]! = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +32,7 @@ class TableViewController: UITableViewController,UIGestureRecognizerDelegate {
         
         toolbarItems.append( UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(toolbarHandleTrash) ))
         toolbarItems.append( fixedSpace )
-        toolbarItems.append( UIBarButtonItem(barButtonSystemItem: .action , target: self, action: #selector(toolbarHandleAction) ))
+        toolbarItems.append( UIBarButtonItem(barButtonSystemItem: .action , target: self, action: #selector(toolbarHandleShare) ))
         self.setToolbarItems(toolbarItems, animated: false)
         
         // Long press recognizer
@@ -112,103 +109,177 @@ class TableViewController: UITableViewController,UIGestureRecognizerDelegate {
         return true
     }
     
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.none
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        // Delete Action
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.handleDeleteRow(indexPath: indexPath)
+        }
+        
+        // Share Action
+        let shareAction = UITableViewRowAction(style: .normal, title: "Share") { (action, IndexPath) in
+            self.handleshareRow(indexPath: indexPath)
+        }
+
+        return [deleteAction, shareAction]
     }
+    
     
     override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateSelectedRowsCount()
+        updateNavigationTitle()
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        updateSelectedRowsCount()
+        updateNavigationTitle()
     }
 
-    func updateSelectedRowsCount(){
+    func updateNavigationTitle(){
         if let list = tableView.indexPathsForSelectedRows {
-            selectedRowCount = list.count
             self.navigationItem.title = "\(list.count) selected"
         }else{
-            selectedRowCount = 0
             self.navigationItem.title = nil
         }
     }
     
-    func updateSelectedFruitNames() {
-        selectedFruits = []
-        selectedIndexes = []
-        if let ipath = tableView.indexPathsForSelectedRows {
-            for i in ipath {
-                if let cell = tableView.cellForRow(at: i) {
-                    selectedFruits.append((cell.textLabel?.text!)!)
-                    selectedIndexes.append(i.row)
-                }
-            }
-        }
-        
-        //print(selectedFruits)
-        //print(selectedIndexes)
-    }
     
     // MARK: - Selector Functions
     func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
         if gestureReconizer.state != UIGestureRecognizerState.ended {
             return
         }
-        
         self.setEditing(true, animated: false)
         //let  p = gestureReconizer.location(in: self.tableView)
         //let indexPath = self.tableView.indexPathForRow(at: p)
     }
     
+    
+    func getSelectedNames() -> [String] {
+        var names:[String] = []
+        if let ipath = tableView.indexPathsForSelectedRows {
+            for i in ipath {
+                names.append(fruits[i.row])
+            }
+        }
+        
+        return names
+    }
+    
+    func getSelectedIndexes() -> [Int]{
+        var indexes:[Int] = []
+        if let ipath = tableView.indexPathsForSelectedRows {
+            for i in ipath {
+                indexes.append(i.row)
+            }
+        }
+        
+        return indexes
+    }
+    
+    // MARK: - Handle functions for ROW ACTION
+    
+    /**
+     When delete button from toolbar is selected
+     */
+    func handleDeleteRow(indexPath:IndexPath){
+        let name = self.fruits[indexPath.row]
+        let deleteAlert = UIAlertController(title: "Delete fruit '\(name)'", message: nil, preferredStyle: .actionSheet)
+        deleteAlert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (UIAlertAction) in
+            print("Deleting row")
+            self.fruits.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.right )
+            self.tableView.setEditing(false, animated: true)
+        }))
+        deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
+            print("cancelled deleting row")
+            self.tableView.setEditing(false, animated: true)
+        }))
+        present(deleteAlert, animated: true, completion: nil)
+    }
+    
+    /**
+     When share button from row is selected
+     */
+    func handleshareRow(indexPath:IndexPath){
+        let name = self.fruits[indexPath.row]
+        let activityView:UIActivityViewController = UIActivityViewController(activityItems: [ name ], applicationActivities: nil)
+        print("sharing \(name)")
+        self.tableView.setEditing(false, animated: true)
+        
+        present(activityView, animated: true, completion: nil)
+    }
+    
+    // MARK: - Handle functions for TOOLBAR ACTIONS
+    
+    /**
+     When trash button from toolbar is selected
+     */
     func toolbarHandleTrash(sender:UIBarButtonItem){
         
-        if self.selectedRowCount <= 0 {
+        if nil == self.tableView.indexPathsForSelectedRows?.count || 0 == self.tableView.indexPathsForSelectedRows?.count {
             print("Nothing to delete")
             return
         }
         
-        updateSelectedFruitNames()
-        
-        let deleteAlert = UIAlertController(title: "Delete fruits?", message: "Deleting \(selectedFruits.joined(separator: ","))", preferredStyle: .actionSheet)
+        let names = self.getSelectedNames()
+        let deleteAlert = UIAlertController(title: "Delete \(names.count) fruits?", message: "Deleting \(names.joined(separator: ","))", preferredStyle: .actionSheet)
         
         // Delete action
         deleteAlert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (UIAlertAction) in
-            
-            print("ok. deleting...")
-            
+            print("ok. deleting selected...")
+            let indexes = self.getSelectedIndexes()
             //begin
             self.tableView.beginUpdates()
+            
             self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows!, with: .right)
             self.fruits = self.fruits
                 .enumerated()
-                .filter { !self.selectedIndexes.contains($0.offset) }
+                .filter { !indexes.contains($0.offset) }
                 .map { $0.element }
             //end
             self.tableView.endUpdates()
             
-            self.updateSelectedRowsCount()
-            self.updateSelectedFruitNames()
-            
-            
+            self.updateNavigationTitle()
             
         }))
         
         // Cancel action
         deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (UIAlertAction) in
-            print("cancelled")
+            //use this block to handle cancel
         }))
         
         present(deleteAlert, animated: false, completion: nil)
     }
     
-    func toolbarHandleAction(sender:UIBarButtonItem){
-        print("About to share")
+    /**
+     When share button from toolbar is selected
+    */
+    func toolbarHandleShare(sender:UIBarButtonItem){
+        
+        if nil == self.tableView.indexPathsForSelectedRows?.count || 0 == self.tableView.indexPathsForSelectedRows?.count {
+            print("Nothing to share")
+            return
+        }
+        let names = self.getSelectedNames()
+        let activityView:UIActivityViewController = UIActivityViewController(activityItems: [ names.joined(separator: ",") ], applicationActivities: nil)
+        
+        activityView.completionWithItemsHandler = {
+            (activityType, completed, returnedItems, activityError) in
+
+            //print("Completed: \(completed) Items: \(returnedItems) Error: \(activityError)")
+            
+            if completed {
+                self.tableView.setEditing(false, animated: true)
+            }
+            self.updateNavigationTitle()
+        }
+        
+        present(activityView, animated: true, completion: nil)
     }
+    
     
     /*
     // MARK: - Navigation
