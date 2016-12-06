@@ -1,4 +1,4 @@
-# swift-tableview-example
+# swift tableview example
 Example project with basic tableview functionality like 
 - [x] Populating data to tableview
 - [x] Multiple Row Selection
