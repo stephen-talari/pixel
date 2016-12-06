@@ -11,5 +11,5 @@ Example project with basic tableview functionality like
 
 # screens
 
-![Alt text](/../screenshots/screenshots/multi_row_select.png?raw=true "Multiple row selection")
+![Alt text](/../screenshots/screenshots/multi_row_select.png?raw=true =496.8x883.2 "Multiple row selection")
 
