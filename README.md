@@ -8,3 +8,8 @@ Example project with basic tableview functionality like
 - [x] Long press recognizer
 - [x] Move rows, etc.
 - [x] Row actions with AlertSheet and ActivityViewController
+
+# screens
+
+![Alt text](/../screenshots/screenshots/multi_row_select.png?raw=true "Multiple row selection")
+
