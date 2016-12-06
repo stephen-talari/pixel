@@ -6,8 +6,8 @@ Example project with basic tableview functionality like
 - [x] Tableview edit mode
 - [x] Toolbar on row selection
 - [x] Long press recognizer
-- [x] Move rows, etc.
-- [x] Row actions with AlertSheet and ActivityViewController
+- [x] Move rows
+- [x] Row actions with AlertSheet and ActivityViewController, etc.
 
 # screens
 
